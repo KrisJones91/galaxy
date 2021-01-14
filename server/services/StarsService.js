@@ -2,6 +2,7 @@ import { dbContext } from "../db/DbContext"
 import { BadRequest } from "../utils/Errors"
 
 
+
 class StarsService {
     async getAll(query = {}) {
         return await dbContext.Stars.find(query)

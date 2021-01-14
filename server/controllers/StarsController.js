@@ -1,3 +1,5 @@
+import { moonsService } from "../services/MoonsService"
+import { planetsService } from "../services/PlanetsService";
 import { starsService } from "../services/StarsService";
 import BaseController from "../utils/BaseController";
 
@@ -9,6 +11,8 @@ export class StarsController extends BaseController {
         this.router
             .get("", this.getAll)
             .get("/:id", this.getOne)
+            .get("/:id/planets", this.getPlanets)
+            .get("/:id/moons", this.getMoons)
             .post("", this.create)
             .put("/:id", this.edit)
             .delete("/:id", this.delete)
@@ -31,6 +35,27 @@ export class StarsController extends BaseController {
             next(error)
         }
     }
+
+    async getPlanets(req, res, next) {
+        try {
+            //find me all of the planets where the "star" property has a value of "id"
+            let data = await planetsService.getAll({ star: req.params.id })
+            res.send(data)
+        } catch (error) {
+            next(error)
+        }
+    }
+
+    async getMoons(req, res, next) {
+        try {
+            //find me all the moons where the "planets" property has a value of "id"
+            let data = await moonsService.getAll({ planets: req.params.id })
+            res.send(data)
+        } catch (error) {
+            next(error)
+        }
+    }
+
 
     async create(req, res, next) {
         try {

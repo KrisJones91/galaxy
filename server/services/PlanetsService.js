@@ -3,6 +3,7 @@ import { BadRequest } from "../utils/Errors"
 
 
 class PlanetsService {
+
     async getAll(query = {}) {
         return await dbContext.Planets.find(query)
     }

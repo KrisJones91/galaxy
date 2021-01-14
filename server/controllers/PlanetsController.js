@@ -1,3 +1,4 @@
+import { moonsService } from "../services/MoonsService";
 import { planetsService } from "../services/PlanetsService";
 import BaseController from "../utils/BaseController";
 
@@ -9,6 +10,7 @@ export class PlanetsController extends BaseController {
         this.router
             .get("", this.getAll)
             .get("/:id", this.getOne)
+            .get("/:id/moons", this.getMoons)
             .post("", this.create)
             .put("/:id", this.edit)
             .delete("/:id", this.delete)
@@ -27,6 +29,15 @@ export class PlanetsController extends BaseController {
     async getOne(req, res, next) {
         try {
             res.send(await planetsService.getOne(req.params.id))
+        } catch (error) {
+            next(error)
+        }
+    }
+
+    async getMoons(req, res, next) {
+        try {
+            let data = await moonsService.getAll({ planets: req.params.id })
+            res.send(data)
         } catch (error) {
             next(error)
         }
